@@ -2,7 +2,7 @@ import React from "react";
 import products from "@/app/prdoucts";
 
 export default function Card() {
-  const featuredProducts = products.filter((item) => item.featured).slice(0,4);
+  const featuredProducts = products.filter((item) => item.featured).slice(0, 4);
 
   return (
     <section className="mt-16">
@@ -11,9 +11,7 @@ export default function Card() {
           Premium Selection
         </span>
 
-        <h2 className="text-4xl font-bold mt-2">
-          Featured Collection
-        </h2>
+        <h2 className="text-4xl font-bold mt-2">Featured Collection</h2>
 
         <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
           Handpicked premium spirits loved by our customers.
@@ -72,9 +70,7 @@ export default function Card() {
 
               <div className="mt-5 flex items-center justify-between">
                 <div>
-                  <p className="text-yellow-500">
-                    ⭐ {item.rating}
-                  </p>
+                  <p className="text-yellow-500">⭐ {item.rating}</p>
 
                   <p className="text-xs text-gray-400">
                     {item.reviewCount} reviews
@@ -86,7 +82,14 @@ export default function Card() {
                 </h4>
               </div>
 
-              <button className="mt-6 w-full rounded-xl bg-black py-3 font-semibold text-white transition hover:bg-[#D4AF37] hover:text-black">
+              <button
+                className="mt-6 w-full rounded-xl bg-black py-3 font-semibold text-white transition hover:bg-[#D4AF37] hover:text-black"
+                type="button"
+                data-drawer-target="drawer-right-example"
+                data-drawer-show="drawer-right-example"
+                data-drawer-placement="right"
+                aria-controls="drawer-right-example"
+              >
                 Add to Cart
               </button>
             </div>

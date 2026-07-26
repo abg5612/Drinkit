@@ -2,22 +2,16 @@
 
 import React from "react";
 import products from "@/app/prdoucts";
+import Link from "next/link";
 
 const fallbackImages = {
-  Whisky:
-    "https://images.unsplash.com/photo-1527281400683-1aae777175f8",
-  Rum:
-    "https://images.unsplash.com/photo-1569529465841-dfecdab7503b",
-  Vodka:
-    "https://images.unsplash.com/photo-1608885898957-a4f0f6d2b8b7",
-  Gin:
-    "https://images.unsplash.com/photo-1551024709-8f23befc6f87",
-  Beer:
-    "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
-  Wine:
-    "https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea",
-  "Soft Drink":
-    "https://images.unsplash.com/photo-1629203851122-3726ecdf080e",
+  Whisky: "https://images.unsplash.com/photo-1527281400683-1aae777175f8",
+  Rum: "https://images.unsplash.com/photo-1569529465841-dfecdab7503b",
+  Vodka: "https://images.unsplash.com/photo-1608885898957-a4f0f6d2b8b7",
+  Gin: "https://images.unsplash.com/photo-1551024709-8f23befc6f87",
+  Beer: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
+  Wine: "https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea",
+  "Soft Drink": "https://images.unsplash.com/photo-1629203851122-3726ecdf080e",
 };
 
 export default function Categories() {
@@ -27,12 +21,12 @@ export default function Categories() {
 
   return (
     <section className="py-20 bg-[#0B0F19]">
-      <div className="max-w-7xl mx-auto px-6">
-        <span className="text-[#D4AF37] uppercase tracking-[4px] text-sm block text-center">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <span className="text-[#D4AF37] uppercase tracking-[4px] text-sm">
           Explore
         </span>
 
-        <h2 className="text-5xl font-black text-center text-white mt-2">
+        <h2 className="text-4xl font-bold mt-2 text-[#ffffff]">
           Shop By Category
         </h2>
 
@@ -44,7 +38,7 @@ export default function Categories() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-16">
           {uniqueCategories.map((item) => {
             const totalProducts = products.filter(
-              (p) => p.category === item.category
+              (p) => p.category === item.category,
             ).length;
 
             return (
@@ -71,7 +65,7 @@ export default function Categories() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 
                 {/* Glass card */}
-                <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-5">
+                <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-2.5 sm:p-3 md:p-5">
                   <h3 className="text-2xl font-bold text-white">
                     {item.category}
                   </h3>
@@ -85,9 +79,14 @@ export default function Categories() {
                       Explore →
                     </span>
 
-                    <div className="w-10 h-10 rounded-full bg-[#D4AF37] flex items-center justify-center text-black font-bold transition group-hover:rotate-45">
-                      →
-                    </div>
+                    <Link href="/Product">
+                      <div
+                        href="/Product"
+                        className="w-10 h-10 sm:w-10 sm:h-10 rounded-full bg-[#D4AF37] flex items-center justify-center text-black text-sm sm:text-base font-bold transition group-hover:rotate-45"
+                      >
+                        →
+                      </div>
+                    </Link>
                   </div>
                 </div>
               </div>

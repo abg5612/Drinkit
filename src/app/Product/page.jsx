@@ -183,9 +183,15 @@ export default function Products() {
 
               {/* Button */}
 
-              <button className="mt-7 w-full py-3 rounded-full bg-[#D4AF37] text-black font-semibold transition hover:bg-yellow-300 hover:shadow-[0_0_25px_rgba(212,175,55,.45)]">
-                Add to Cart
-              </button>
+             <button
+  type="button"
+  className="mt-7 w-full py-3 rounded-full bg-[#D4AF37] text-black font-semibold transition hover:bg-yellow-300 hover:shadow-[0_0_25px_rgba(212,175,55,.45)]"
+  data-drawer-target="drawer-right-example"
+  data-drawer-show="drawer-right-example"
+  data-drawer-placement="right"
+>
+  Add to Cart
+</button>
             </div>
           </div>
         ))}

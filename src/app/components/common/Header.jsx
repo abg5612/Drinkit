@@ -16,7 +16,9 @@ export default function Header() {
           >
             <img src="/logo.svg" className="h-7" alt="Flowbite Logo" />
           </a> */}
-          <h1 className="text-6xl md:text-6xl font-black tracking-wider">Drink<span className="text-[#D4AF37]">it</span></h1>
+          <h1 className="text-6xl md:text-6xl font-black tracking-wider">
+            Drink<span className="text-[#D4AF37]">it</span>
+          </h1>
           <button
             data-collapse-toggle="navbar-default"
             type="button"
@@ -42,7 +44,10 @@ export default function Header() {
               />
             </svg>
           </button>
-          <div className="hidden w-full background-red md:block md:w-auto z-[35]" id="navbar-default">
+          <div
+            className="hidden w-full background-red md:block md:w-auto z-[35]"
+            id="navbar-default"
+          >
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-neutral-primary">
               <li>
                 <Link
@@ -95,7 +100,7 @@ export default function Header() {
               </li>
               <li>
                 {/* drawer init and toggle */}
-                <div className="text-center">
+                <div className="text-left pt-4 pl-2 md:text-center">
                   <button
                     className="inline-flex items-center text-[25px] justify-center text-black bg-brand box-border border border-transparent hover:bg-brand-strong shadow-xs font-medium leading-5 rounded-base text-sm"
                     type="button"
