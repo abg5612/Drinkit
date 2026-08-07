@@ -160,7 +160,7 @@ export default function Header() {
                   onClick={() => setOpen(true)}
                   className="bg-brand text-black rounded-md cursor-pointer py-2 px-3"
                 >
-                  Login / Register
+                  Login / Registergit o
                 </button>
               </li>
               <li className="my-[10px]">
