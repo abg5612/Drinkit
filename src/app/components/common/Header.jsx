@@ -7,6 +7,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const {
     setIsProfileOpen,
     cart,
@@ -103,7 +105,7 @@ export default function Header() {
             Drink<span className="text-[#D4AF37]">it</span>
           </h1>
           <button
-            data-collapse-toggle="navbar-default"
+            onClick={() => setMenuOpen(!menuOpen)}
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary"
             aria-controls="navbar-default"
@@ -128,45 +130,49 @@ export default function Header() {
             </svg>
           </button>
           <div
-            className="hidden w-full background-red md:block md:w-auto z-[35]"
             id="navbar-default"
+            className={`${
+              menuOpen ? "block" : "hidden"
+            } w-full md:block md:w-auto z-[35]`}
           >
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-neutral-primary">
-              <li>
+            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:items-center md:space-x-8 md:mt-0 md:border-0 md:bg-neutral-primary">
+              <li className="my-[10px]">
                 <Link
                   href={"/"}
                   className="block py-2 px-3 text-black bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
                   aria-current="page"
+                  onClick={() => setMenuOpen(false)}
                 >
                   Home
                 </Link>
               </li>
-              <li>
+              <li className="my-[10px]">
                 <Link
                   href={"/Product"}
                   className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent"
+                  onClick={() => setMenuOpen(false)}
                 >
                   Products
                 </Link>
               </li>
-              <li>
+              <li className="my-[10px] md:my-0">
                 <button
                   onClick={() => setOpen(true)}
-                  className="bg-brand text-black rounded-md cursor-pointer"
+                  className="bg-brand text-black rounded-md cursor-pointer py-2 px-3"
                 >
                   Login / Register
                 </button>
               </li>
-              <li>
+              <li className="my-[10px]">
                 <button
                   type="button"
-                  className="bg-brand text-black rounded-md cursor-pointer"
+                  className="bg-brand text-black rounded-md cursor-pointer py-2 px-3"
                   onClick={() => setIsProfileOpen(true)}
                 >
                   My Profile
                 </button>
               </li>
-              <li className="flex items-center gap-2">
+              <li className="flex items-center gap-2 my-[10px]">
                 {/* drawer init and toggle */}
                 <div className="text-left pt-0 pl-2 md:text-center">
                   <button
@@ -198,8 +204,8 @@ export default function Header() {
                   </button>
                 </div>
               </li>
-              
-              <li>
+
+              <li className="my-[10px]">
                 <button
                   onClick={getLocation}
                   className="mt-2 px-3 py-2 bg-black text-white rounded-md"
@@ -207,7 +213,6 @@ export default function Header() {
                   📍 Get Location
                 </button>
               </li>
-              
             </ul>
           </div>
         </div>
