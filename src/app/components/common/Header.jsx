@@ -1,10 +1,93 @@
 "use client";
 import { useState } from "react";
-import "flowbite";
+import { useCart } from "@/app/components/context/CartContext";
 import Link from "next/link";
+
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+
+  const {
+    setIsProfileOpen,
+    cart,
+    setIsCartOpen,
+    setUsername,
+    setContact,
+    setEmail,
+    setAddress,
+    // addToCart,
+    addToWishlist,
+    wishlist,
+  } = useCart();
+
+  const [name, setName] = useState("");
+  const [contact, setContactInput] = useState("");
+  const [email, setEmailInput] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Register Handler
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    // Context update
+    setUsername(name);
+    setContact(contact);
+    setEmail(email);
+
+    // Refresh ke baad bhi data rahe
+    localStorage.setItem("username", name);
+    localStorage.setItem("contact", contact);
+    localStorage.setItem("email", email);
+
+    // Modal close
+    setOpen(false);
+
+    // Form clear
+    setName("");
+    setContactInput("");
+    setEmailInput("");
+    setPassword("");
+  };
+
+  // Handle login
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    console.log("Login clicked");
+
+    setOpen(false);
+  };
+
+  //Get Location
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+          );
+
+          const data = await response.json();
+
+          setAddress(data.display_name);
+        } catch (error) {
+          console.log(error);
+          alert("Unable to get address.");
+        }
+      },
+      (error) => {
+        console.log(error);
+        alert("Location permission denied.");
+      },
+    );
+  };
 
   return (
     <div>
@@ -58,14 +141,6 @@ export default function Header() {
                   Home
                 </Link>
               </li>
-              {/* <li>
-                <Link
-                 href={'/About'}
-                  className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent"
-                >
-                  About
-                </Link>
-              </li> */}
               <li>
                 <Link
                   href={"/Product"}
@@ -74,22 +149,6 @@ export default function Header() {
                   Products
                 </Link>
               </li>
-              {/* <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent"
-                >
-                  Pricing
-                </a>
-              </li> */}
-              {/* <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-heading rounded hover:bg-neutral-tertiary md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0 md:dark:hover:bg-transparent"
-                >
-                  Contact
-                </a>
-              </li> */}
               <li>
                 <button
                   onClick={() => setOpen(true)}
@@ -99,21 +158,56 @@ export default function Header() {
                 </button>
               </li>
               <li>
+                <button
+                  type="button"
+                  className="bg-brand text-black rounded-md cursor-pointer"
+                  onClick={() => setIsProfileOpen(true)}
+                >
+                  My Profile
+                </button>
+              </li>
+              <li className="flex items-center gap-2">
                 {/* drawer init and toggle */}
-                <div className="text-left pt-4 pl-2 md:text-center">
+                <div className="text-left pt-0 pl-2 md:text-center">
                   <button
-                    className="inline-flex items-center text-[25px] justify-center text-black bg-brand box-border border border-transparent hover:bg-brand-strong shadow-xs font-medium leading-5 rounded-base text-sm"
                     type="button"
-                    data-drawer-target="drawer-right-example"
-                    data-drawer-show="drawer-right-example"
-                    data-drawer-placement="right"
-                    aria-controls="drawer-right-example"
+                    onClick={() => setIsCartOpen(true)}
+                    className="relative inline-flex mt-[-11px] items-center justify-center text-[25px] bg-brand rounded-base px-2 py-1 "
                   >
-                    &#x1F6D2;
+                    🛒
+                    {cart.length > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {cart.length}
+                      </span>
+                    )}
                   </button>
                 </div>
                 {/* drawer component */}
+                <div className="relative text-left pt-0 pl-2 md:text-center">
+                  <button
+                    type="button"
+                    className="relative inline-flex items-center justify-center text-[25px] text-black bg-brand rounded-base px-2 py-1"
+                    onClick={() => setIsProfileOpen(true)}
+                  >
+                    ❤️
+                    {wishlist.length > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                        {wishlist.length}
+                      </span>
+                    )}
+                  </button>
+                </div>
               </li>
+              
+              <li>
+                <button
+                  onClick={getLocation}
+                  className="mt-2 px-3 py-2 bg-black text-white rounded-md"
+                >
+                  📍 Get Location
+                </button>
+              </li>
+              
             </ul>
           </div>
         </div>
@@ -138,7 +232,10 @@ export default function Header() {
             </div>
 
             {/* Form */}
-            <form className="mt-5 space-y-4">
+            <form
+              className="mt-5 space-y-4"
+              onSubmit={isLogin ? handleLogin : handleRegister}
+            >
               {/* Name + Contact (Register only) */}
               {!isLogin && (
                 <>
@@ -146,6 +243,8 @@ export default function Header() {
                     <label className="text-sm font-medium">Name</label>
                     <input
                       type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       className="w-full border px-3 py-2 rounded-md mt-1"
                       placeholder="Enter your name"
                     />
@@ -155,6 +254,8 @@ export default function Header() {
                     <label className="text-sm font-medium">Contact</label>
                     <input
                       type="tel"
+                      value={contact}
+                      onChange={(e) => setContactInput(e.target.value)}
                       className="w-full border px-3 py-2 rounded-md mt-1"
                       placeholder="Enter contact number"
                     />
@@ -167,6 +268,8 @@ export default function Header() {
                 <label className="text-sm font-medium">Email</label>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmailInput(e.target.value)}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                   placeholder="Enter email"
                 />
@@ -177,6 +280,8 @@ export default function Header() {
                 <label className="text-sm font-medium">Password</label>
                 <input
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full border px-3 py-2 rounded-md mt-1"
                   placeholder="Enter password"
                 />

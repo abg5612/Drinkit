@@ -2,10 +2,13 @@
 
 import React, { useState } from "react";
 import products from "../prdoucts";
+//import Sidebar from "../components/common/Sidebar";
+import { useCart } from "@/app/components/context/CartContext";
 
 export default function Products() {
+  const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState("All");
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const categories = [
     "All",
     "Whisky",
@@ -16,11 +19,24 @@ export default function Products() {
     "Wine",
     "Soft Drink",
   ];
-  const filteredProducts =
-    activeCategory === "All"
-      ? products
-      : products.filter((item) => item.category === activeCategory);
+  // const filteredProducts =
+  //   activeCategory === "All"
+  //     ? products
+  //     : products.filter((item) => item.category === activeCategory);
 
+  const filteredProducts = products.filter((item) => {
+    // Category check
+    const matchesCategory =
+      activeCategory === "All" || item.category === activeCategory;
+
+    // Search check
+    const matchesSearch =
+      item.name.toLowerCase().includes(search.toLowerCase()) ||
+      item.brand.toLowerCase().includes(search.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
+  const { wishlist, addToWishlist } = useCart();
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#080B11] via-[#111827] to-[#080B11] text-white">
       {/* Hero */}
@@ -38,16 +54,22 @@ export default function Products() {
         </p>
 
         {/* Search bar start */}
-<div className="mt-10 flex max-w-xl mx-auto gap-3">
+        <div className="mt-10 flex max-w-xl mx-auto gap-3 relative z-2">
+          <input
+            type="search"
+            placeholder="Search whisky, rum, vodka..."
+            value={search}
+            onChange={(e) => {
+              console.log("typing", e.target.value);
+              setSearch(e.target.value);
+            }}
+            className=" flex-1 px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white outline-none "
+          />
 
-  <input type="text" placeholder="Search whisky, rum, vodka..." value={search} onChange={(e)=>setSearch(e.target.value)} className=" flex-1 px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white outline-none "
-  />
-
-  <button className=" px-8 rounded-full bg-[#D4AF37] text-black font-bold">
-    Search
-  </button>
-
-</div>
+          <button className=" px-8 rounded-full bg-[#D4AF37] text-black font-bold">
+            Search
+          </button>
+        </div>
         {/* Search bar end */}
       </section>
 
@@ -85,7 +107,7 @@ export default function Products() {
                 alt={item.name}
                 className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
               />
-
+             
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
 
               {/* Category */}
@@ -93,6 +115,22 @@ export default function Products() {
               <span className="absolute top-5 left-5 px-4 py-1 rounded-full bg-black/60 backdrop-blur text-xs uppercase tracking-widest text-[#D4AF37]">
                 {item.category}
               </span>
+
+
+{/* Wishlist */}
+<button
+  type="button"
+  onClick={() => addToWishlist(item)}
+  className={`absolute bottom-4 right-4 w-11 h-11 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 hover:scale-110 border ${
+    wishlist.some((product) => product.id === item.id)
+      ? "bg-white border-black text-red-500"
+      : "bg-white border-black text-black"
+  }`}
+>
+  {wishlist.some((product) => product.id === item.id) ? "♥" : "♡"}
+</button>
+```
+
 
               {/* Featured */}
 
@@ -183,15 +221,16 @@ export default function Products() {
 
               {/* Button */}
 
-             <button
-  type="button"
-  className="mt-7 w-full py-3 rounded-full bg-[#D4AF37] text-black font-semibold transition hover:bg-yellow-300 hover:shadow-[0_0_25px_rgba(212,175,55,.45)]"
-  data-drawer-target="drawer-right-example"
-  data-drawer-show="drawer-right-example"
-  data-drawer-placement="right"
->
-  Add to Cart
-</button>
+              <button
+                type="button"
+                className="mt-7 w-full py-3 rounded-full bg-[#D4AF37] text-black font-semibold transition hover:bg-yellow-300 hover:shadow-[0_0_25px_rgba(212,175,55,.45)]"
+                // data-drawer-target="drawer-right-example"
+                // data-drawer-show="drawer-right-example"
+                // data-drawer-placement="right"
+                onClick={() => addToCart(item)}
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         ))}

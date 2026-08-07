@@ -1,10 +1,9 @@
-
 import "./globals.css";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
-//import Card from "./components/home-components/Card";
 import Sidebar from "./components/common/Sidebar";
-
+import { CartProvider } from "./components/context/CartContext";
+import Profile from "./components/common/Profile";
 
 export const metadata = {
   title: "Drinkit",
@@ -16,15 +15,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-    >
+    <html lang="en">
       <body className="min-h-full flex flex-col">
-        <Header />
-         <Sidebar />
-        {children}
-       
-        <Footer />
+        <CartProvider>
+          <Header />
+          <Sidebar />
+          <Profile />
+          {children}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

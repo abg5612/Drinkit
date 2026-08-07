@@ -1,9 +1,16 @@
+"use client";
+
 import React from "react";
 import products from "@/app/prdoucts";
+import { useCart } from "@/app/components/context/CartContext";
 
 export default function Card() {
-  const featuredProducts = products.filter((item) => item.featured).slice(0, 4);
+  const featuredProducts = products
+    .filter((item) => item.featured)
+    .slice(0, 4);
 
+ const { wishlist, addToWishlist } = useCart();
+const { addToCart } = useCart();
   return (
     <section className="mt-16">
       <div className="text-center">
@@ -11,7 +18,9 @@ export default function Card() {
           Premium Selection
         </span>
 
-        <h2 className="text-4xl font-bold mt-2">Featured Collection</h2>
+        <h2 className="text-4xl font-bold mt-2">
+          Featured Collection
+        </h2>
 
         <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
           Handpicked premium spirits loved by our customers.
@@ -33,13 +42,28 @@ export default function Card() {
                 className="h-72 w-full object-cover transition duration-700 group-hover:scale-110"
               />
 
+              {/* Featured */}
               <span className="absolute top-4 left-4 rounded-full bg-[#D4AF37] px-3 py-1 text-xs font-semibold text-black">
                 Featured
               </span>
 
+              {/* Category */}
               <span className="absolute top-4 right-4 rounded-full bg-black/70 px-3 py-1 text-xs text-white backdrop-blur">
                 {item.category}
               </span>
+
+              {/* Wishlist */}
+              <button
+                type="button"
+                onClick={() => addToWishlist(item)}
+                className="absolute bottom-4 right-4 w-11 h-11 rounded-full bg-white/95 flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition"
+              >
+                {wishlist.some(
+                  (product) => product.id === item.id
+                )
+                  ? "❤️"
+                  : "♡"}
+              </button>
             </div>
 
             {/* Content */}
@@ -57,6 +81,8 @@ export default function Card() {
                 {item.description}
               </p>
 
+              {/* Flavours */}
+
               <div className="mt-4 flex flex-wrap gap-2">
                 {item.flavours?.slice(0, 2).map((flavour) => (
                   <span
@@ -68,9 +94,13 @@ export default function Card() {
                 ))}
               </div>
 
+              {/* Rating + Price */}
+
               <div className="mt-5 flex items-center justify-between">
                 <div>
-                  <p className="text-yellow-500">⭐ {item.rating}</p>
+                  <p className="text-yellow-500">
+                    ⭐ {item.rating}
+                  </p>
 
                   <p className="text-xs text-gray-400">
                     {item.reviewCount} reviews
@@ -82,13 +112,12 @@ export default function Card() {
                 </h4>
               </div>
 
+              {/* Add To Cart */}
+
               <button
                 className="mt-6 w-full rounded-xl bg-black py-3 font-semibold text-white transition hover:bg-[#D4AF37] hover:text-black"
                 type="button"
-                data-drawer-target="drawer-right-example"
-                data-drawer-show="drawer-right-example"
-                data-drawer-placement="right"
-                aria-controls="drawer-right-example"
+                onClick={() => addToCart(item)}
               >
                 Add to Cart
               </button>
