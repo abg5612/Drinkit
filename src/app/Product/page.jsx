@@ -107,33 +107,25 @@ export default function Products() {
                 alt={item.name}
                 className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
               />
-             
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-
               {/* Category */}
-
               <span className="absolute top-5 left-5 px-4 py-1 rounded-full bg-black/60 backdrop-blur text-xs uppercase tracking-widest text-[#D4AF37]">
                 {item.category}
               </span>
-
-
-{/* Wishlist */}
-<button
-  type="button"
-  onClick={() => addToWishlist(item)}
-  className={`absolute bottom-4 right-4 w-11 h-11 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 hover:scale-110 border ${
-    wishlist.some((product) => product.id === item.id)
-      ? "bg-white border-black text-red-500"
-      : "bg-white border-black text-black"
-  }`}
->
-  {wishlist.some((product) => product.id === item.id) ? "♥" : "♡"}
-</button>
-```
-
-
+              {/* Wishlist */}
+              <button
+                type="button"
+                onClick={() => addToWishlist(item)}
+                className={`absolute bottom-4 right-4 w-11 h-11 rounded-full flex items-center justify-center text-2xl shadow-lg transition-all duration-300 hover:scale-110 border ${
+                  wishlist.some((product) => product.id === item.id)
+                    ? "bg-white border-black text-red-500"
+                    : "bg-white border-black text-black"
+                }`}
+              >
+                {wishlist.some((product) => product.id === item.id) ? "♥" : "♡"}
+              </button>
+              ```
               {/* Featured */}
-
               {item.featured && (
                 <span className="absolute top-5 right-5 bg-[#D4AF37] text-black text-xs font-semibold px-3 py-1 rounded-full">
                   Featured

@@ -178,26 +178,39 @@ export default function Header() {
                   <button
                     type="button"
                     onClick={() => setIsCartOpen(true)}
-                    className="relative inline-flex mt-[-11px] items-center justify-center text-[25px] bg-brand rounded-base px-2 py-1 "
+                    className="relative inline-flex h-11 w-11 items-center justify-center rounded-base bg-brand p-0"
                   >
-                    🛒
+                    <img
+                      src="/shopping-cart.png"
+                      alt="Shopping Cart"
+                      className="h-7 w-7 object-contain"
+                      title="Shopping Cart"
+                    />
+
                     {cart.length > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white">
                         {cart.length}
                       </span>
                     )}
                   </button>
                 </div>
+
                 {/* drawer component */}
                 <div className="relative text-left pt-0 pl-2 md:text-center">
                   <button
                     type="button"
-                    className="relative inline-flex items-center justify-center text-[25px] text-black bg-brand rounded-base px-2 py-1"
+                    className="relative inline-flex h-11 w-11 items-center justify-center rounded-base bg-brand p-0"
                     onClick={() => setIsProfileOpen(true)}
                   >
-                    ❤️
+                    <img
+                      src="/favorite.png"
+                      alt="Wishlist"
+                      className="h-7 w-7 object-contain"
+                      title="Wishlist"
+                    />
+
                     {wishlist.length > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                      <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {wishlist.length}
                       </span>
                     )}
